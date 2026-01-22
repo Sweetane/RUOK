@@ -4,4 +4,11 @@
     <style name="Theme.PrivateCheck" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
+    <!-- Splash Screen Theme (Cold Start) -->
+    <style name="Theme.PrivateCheck.Splash" parent="Theme.PrivateCheck">
+        <item name="android:windowBackground">@color/splash_green</item>
+        <item name="android:statusBarColor">@color/splash_green</item>
+        <item name="android:windowLightStatusBar">false</item> <!-- White icons on Green bg -->
+    </style>
 </resources>

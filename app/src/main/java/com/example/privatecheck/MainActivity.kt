@@ -45,6 +45,8 @@ import androidx.compose.ui.graphics.graphicsLayer // Fix
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Switch back to normal theme before Activity creation to avoid Green background persisting
+        setTheme(R.style.Theme_PrivateCheck)
         super.onCreate(savedInstanceState)
         
         val repository = DataStoreRepository(applicationContext)
@@ -148,15 +150,26 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = animatedBgColor // Animated transition
                 ) {
+
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController, 
-                        startDestination = "home",
+                        startDestination = "splash", // Start with Splash
                         enterTransition = { androidx.compose.animation.fadeIn(animationSpec = tween(300)) },
-                        exitTransition = { androidx.compose.animation.fadeOut(animationSpec = tween(300)) },
+                        exitTransition = { androidx.compose.animation.fadeOut(animationSpec = tween(700)) },
                         popEnterTransition = { androidx.compose.animation.fadeIn(animationSpec = tween(300)) },
-                        popExitTransition = { androidx.compose.animation.fadeOut(animationSpec = tween(300)) }
+                        popExitTransition = { androidx.compose.animation.fadeOut(animationSpec = tween(700)) }
                     ) {
+                        composable("splash") {
+                            com.example.privatecheck.ui.SplashScreen(
+                                onAnimationFinished = {
+                                    navController.navigate("home") {
+                                        // Pop Splash from back stack so Back button exits app
+                                        popUpTo("splash") { inclusive = true }
+                                    }
+                                }
+                            )
+                        }
                         composable("home") {
                             HomeScreen(
                                 manager = manager, 
