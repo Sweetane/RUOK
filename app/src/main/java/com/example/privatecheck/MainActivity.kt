@@ -24,6 +24,7 @@ import kotlinx.coroutines.delay
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -243,6 +244,10 @@ fun HomeScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     
+    // Adaptive Font Size (7% of screen width - fits "yyyy-MM-dd HH:mm:ss" comfortably)
+    val configuration = LocalConfiguration.current
+    val adaptiveClockSize = (configuration.screenWidthDp * 0.07).sp
+    
     // ... State ... (streak, isCheckedIn, currentTime)
     val streak by repository.streakDays.collectAsState(initial = 0)
     var isCheckedIn by remember { mutableStateOf(false) }
@@ -370,7 +375,7 @@ fun HomeScreen(
             // Bottom Clock
             Text(
                 text = currentTime,
-                fontSize = 32.sp,
+                fontSize = adaptiveClockSize, // Adaptive Size
                 fontWeight = FontWeight.Black,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
